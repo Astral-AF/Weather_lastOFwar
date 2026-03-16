@@ -1,508 +1,934 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>نظام الطقس - Last War</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-  body {
-    font-family: 'Tajawal', sans-serif;
-    background: #0a0e1a;
-    color: #fff;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-  .page {
-    width: 100%;
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 24px 16px 40px;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>نظام الطقس - Last War</title>
 
-/* HEADER */
-.header { text-align: center; margin-bottom: 32px; }
-.header-badge {
-display: inline-block;
-background: linear-gradient(135deg, #f59e0b, #ef4444);
-color: #fff;
-font-size: 11px;
-font-weight: 700;
-padding: 4px 14px;
-border-radius: 20px;
-letter-spacing: 2px;
-margin-bottom: 12px;
-}
-.header h1 {
-font-size: clamp(26px, 7vw, 40px);
-font-weight: 900;
-background: linear-gradient(135deg, #fbbf24, #f97316, #ef4444);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-line-height: 1.25;
-margin-bottom: 8px;
-}
-.header p { color: #94a3b8; font-size: clamp(13px, 3.5vw, 15px); }
-.header-line {
-width: 70px; height: 3px;
-background: linear-gradient(90deg, #f59e0b, #ef4444);
-margin: 12px auto 0; border-radius: 2px;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap"
+    rel="stylesheet"
+  />
 
-/* SECTION TITLE */
-.section-title {
-display: -webkit-flex; display: flex;
--webkit-align-items: center; align-items: center;
-gap: 10px; margin-bottom: 14px; margin-top: 28px;
-}
-.section-title .icon { font-size: 20px; flex-shrink: 0; }
-.section-title h2 { font-size: clamp(15px, 4vw, 18px); font-weight: 800; color: #f1f5f9; }
-.section-title::after {
-content: ‘’; flex: 1; height: 1px;
-background: linear-gradient(90deg, #334155, transparent);
-}
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* INFO ROW */
-.info-row {
-display: -webkit-flex; display: flex;
--webkit-flex-wrap: wrap; flex-wrap: wrap;
-gap: 12px; margin-bottom: 12px;
-}
-.info-card {
--webkit-flex: 1 1 130px; flex: 1 1 130px;
-background: linear-gradient(135deg, #1e293b, #0f172a);
-border: 1px solid #334155;
-border-radius: 14px;
-padding: 16px 12px;
-text-align: center;
-}
-.info-card .ic { font-size: 26px; margin-bottom: 8px; }
-.info-card h3 { font-size: 11px; font-weight: 700; color: #94a3b8; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-.info-card p { font-size: 12px; color: #cbd5e1; line-height: 1.55; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
 
-/* PROB BARS */
-.prob-box {
-background: #1e293b; border: 1px solid #334155;
-border-radius: 14px; padding: 16px 18px; margin-top: 12px;
-}
-.prob-title { font-size: 13px; color: #94a3b8; font-weight: 700; margin-bottom: 12px; }
-.prob-row { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; gap: 8px; margin-bottom: 8px; }
-.prob-label { font-size: 12px; color: #94a3b8; width: 80px; flex-shrink: 0; text-align: right; }
-.prob-bar-bg { -webkit-flex: 1; flex: 1; height: 8px; background: #0f172a; border-radius: 10px; overflow: hidden; }
-.prob-bar { height: 100%; border-radius: 10px; }
-.prob-pct { font-size: 12px; font-weight: 700; color: #f1f5f9; width: 32px; flex-shrink: 0; }
-.prob-note { font-size: 11px; color: #475569; margin-top: 8px; }
+    body {
+      font-family: "Tajawal", sans-serif;
+      background: #0a0e1a;
+      color: #ffffff;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
 
-/* TIMELINE */
-.timeline {
-display: -webkit-flex; display: flex;
--webkit-flex-direction: row-reverse; flex-direction: row-reverse;
-border-radius: 14px; overflow: hidden;
-border: 1px solid #334155;
-}
-.tl-item { -webkit-flex: 1; flex: 1; padding: 16px 10px; text-align: center; position: relative; }
-.tl-item:not(:last-child)::after {
-content: ‘◄’; position: absolute;
-left: -9px; top: 50%;
--webkit-transform: translateY(-50%); transform: translateY(-50%);
-color: #475569; font-size: 11px; z-index: 2;
-}
-.tl-day { font-size: 10px; font-weight: 800; letter-spacing: 0.8px; margin-bottom: 5px; text-transform: uppercase; }
-.tl-emoji { font-size: 24px; margin: 4px 0; }
-.tl-desc { font-size: clamp(11px, 2.8vw, 13px); color: #cbd5e1; line-height: 1.45; }
+    .page {
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
 
-/* WEATHER CARDS */
-.w-neutral {
-background: linear-gradient(135deg, #1e293b, #0f172a);
-border: 1px solid #334155; border-radius: 14px;
-padding: 14px 18px; margin-bottom: 12px;
-display: -webkit-flex; display: flex;
--webkit-flex-direction: row-reverse; flex-direction: row-reverse;
--webkit-align-items: center; align-items: center; gap: 14px;
-}
-.w-neutral .emoji { font-size: 30px; flex-shrink: 0; }
-.w-neutral h3 { font-size: 15px; font-weight: 800; color: #94a3b8; margin-bottom: 4px; }
-.w-neutral p { font-size: 12px; color: #64748b; }
-.w-neutral-badge {
-margin-right: auto; flex-shrink: 0;
-background: rgba(100,116,139,0.2); border: 1px solid #334155;
-border-radius: 8px; padding: 5px 10px;
-font-size: 11px; color: #64748b; font-weight: 700;
-}
+    /* HEADER */
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
 
-/* GOOD */
-.w-good {
-background: linear-gradient(135deg, #052e16, #0f2d0f);
-border: 1px solid #166534; border-radius: 14px;
-padding: 16px; position: relative; overflow: hidden;
-}
-.w-good::before {
-content: ‘’; position: absolute; top: 0; right: 0;
-width: 55px; height: 55px;
-background: radial-gradient(circle, rgba(34,197,94,0.15), transparent);
-border-radius: 50%;
-}
+    .header-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 20px;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
 
-/* BAD */
-.w-bad {
-background: linear-gradient(135deg, #2d0a0a, #1a0a14);
-border: 1px solid #7f1d1d; border-radius: 14px;
-padding: 16px; position: relative; overflow: hidden;
-}
-.w-bad::before {
-content: ‘’; position: absolute; top: 0; right: 0;
-width: 55px; height: 55px;
-background: radial-gradient(circle, rgba(239,68,68,0.15), transparent);
-border-radius: 50%;
-}
+    .header h1 {
+      font-size: clamp(26px, 7vw, 40px);
+      font-weight: 900;
+      background: linear-gradient(135deg, #fbbf24, #f97316, #ef4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
 
-/* SHARED WEATHER INTERNALS */
-.w-head { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; gap: 10px; margin-bottom: 10px; }
-.w-emoji { font-size: 26px; flex-shrink: 0; }
-.w-name { font-size: 15px; font-weight: 800; }
-.w-name.green { color: #4ade80; }
-.w-name.red { color: #f87171; }
-.w-tag {
-font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 700; margin-right: auto; flex-shrink: 0;
-}
-.w-tag.green { background: rgba(34,197,94,0.2); color: #4ade80; border: 1px solid #166534; }
-.w-tag.red { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid #7f1d1d; }
+    .header p {
+      color: #94a3b8;
+      font-size: clamp(13px, 3.5vw, 15px);
+    }
 
-.stat { display: -webkit-flex; display: flex; -webkit-align-items: flex-start; align-items: flex-start; gap: 6px; margin-bottom: 6px; }
-.stat-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
-.stat-val { font-size: 13px; font-weight: 700; flex-shrink: 0; }
-.stat-val.green { color: #4ade80; }
-.stat-val.red { color: #f87171; }
-.stat-text { font-size: 12px; color: #94a3b8; }
+    .header-line {
+      width: 70px;
+      height: 3px;
+      background: linear-gradient(90deg, #f59e0b, #ef4444);
+      margin: 12px auto 0;
+      border-radius: 2px;
+    }
 
-.w-effect { font-size: 12px; color: #bbf7d0; line-height: 1.55; margin: 8px 0; }
-.w-effect.bad { color: #fecaca; }
-.w-tip {
-font-size: 12px; line-height: 1.55; padding: 8px 10px; border-radius: 0 6px 6px 0;
-}
-.w-tip.green { color: #86efac; background: rgba(34,197,94,0.1); border-right: 3px solid #22c55e; }
-.w-tip.red { color: #fca5a5; background: rgba(239,68,68,0.1); border-right: 3px solid #ef4444; }
+    /* SECTION TITLE */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 28px 0 14px;
+    }
 
-.pvp-badge {
-display: inline-block; margin-top: 8px;
-font-size: 11px; background: rgba(168,85,247,0.2);
-color: #c084fc; border: 1px solid #6b21a8;
-padding: 3px 9px; border-radius: 10px; font-weight: 700;
-}
+    .section-title .icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
 
-/* GRID */
-.w-grid {
-display: -webkit-flex; display: flex;
--webkit-flex-wrap: wrap; flex-wrap: wrap;
-gap: 12px;
-}
-.w-half { -webkit-flex: 1 1 240px; flex: 1 1 240px; }
-.w-full { -webkit-flex: 1 1 100%; flex: 1 1 100%; }
-.w-inner-grid {
-display: -webkit-flex; display: flex;
--webkit-flex-wrap: wrap; flex-wrap: wrap;
-gap: 12px;
-}
-.w-inner-col { -webkit-flex: 1 1 180px; flex: 1 1 180px; }
+    .section-title h2 {
+      font-size: clamp(15px, 4vw, 18px);
+      font-weight: 800;
+      color: #f1f5f9;
+    }
 
-/* ALERT */
-.alert-box {
-background: linear-gradient(135deg, #1c1400, #1a0f00);
-border: 1px solid #78350f; border-radius: 14px;
-padding: 14px 16px; margin-top: 12px;
-display: -webkit-flex; display: flex;
-gap: 12px; -webkit-align-items: flex-start; align-items: flex-start;
-}
-.alert-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
-.alert-box h4 { font-size: 14px; font-weight: 800; color: #fbbf24; margin-bottom: 5px; }
-.alert-box p { font-size: 12px; color: #d97706; line-height: 1.6; }
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, #334155, transparent);
+    }
 
-/* FAQ */
-.faq-grid {
-display: -webkit-flex; display: flex;
--webkit-flex-wrap: wrap; flex-wrap: wrap;
-gap: 12px;
-}
-.faq-card {
--webkit-flex: 1 1 220px; flex: 1 1 220px;
-background: #1e293b; border: 1px solid #334155;
-border-radius: 12px; padding: 14px;
-}
-.faq-q { font-size: 13px; font-weight: 700; color: #fbbf24; margin-bottom: 7px; display: -webkit-flex; display: flex; gap: 5px; }
-.faq-q::before { content: ‘؟’; color: #f59e0b; font-size: 15px; flex-shrink: 0; }
-.faq-a { font-size: 12px; color: #94a3b8; line-height: 1.6; }
+    /* INFO ROW */
+    .info-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
 
-/* FOOTER */
-.footer {
-margin-top: 36px; text-align: center;
-padding-top: 20px; border-top: 1px solid #1e293b;
-}
-.footer-name {
-font-size: clamp(18px, 5vw, 24px); font-weight: 900;
-background: linear-gradient(135deg, #fbbf24, #f97316);
--webkit-background-clip: text; -webkit-text-fill-color: transparent;
-background-clip: text; letter-spacing: 1px;
-}
-.footer-sub { font-size: 12px; color: #475569; margin-top: 4px; }
-.footer-game { font-size: 10px; color: #334155; margin-top: 6px; letter-spacing: 2px; text-transform: uppercase; }
-</style>
+    .info-card {
+      flex: 1 1 130px;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 16px 12px;
+      text-align: center;
+    }
 
+    .info-card .ic {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .info-card h3 {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-card p {
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.55;
+    }
+
+    /* PROB BARS */
+    .prob-box {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-top: 12px;
+    }
+
+    .prob-title {
+      font-size: 13px;
+      color: #94a3b8;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .prob-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .prob-label {
+      font-size: 12px;
+      color: #94a3b8;
+      width: 80px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .prob-bar-bg {
+      flex: 1;
+      height: 8px;
+      background: #0f172a;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .prob-bar {
+      height: 100%;
+      border-radius: 10px;
+    }
+
+    .prob-pct {
+      font-size: 12px;
+      font-weight: 700;
+      color: #f1f5f9;
+      width: 32px;
+      flex-shrink: 0;
+    }
+
+    .prob-note {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 8px;
+    }
+
+    /* TIMELINE */
+    .timeline {
+      display: flex;
+      flex-direction: row-reverse;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #334155;
+    }
+
+    .tl-item {
+      flex: 1;
+      padding: 16px 10px;
+      text-align: center;
+      position: relative;
+    }
+
+    .tl-item:not(:last-child)::after {
+      content: "◄";
+      position: absolute;
+      left: -9px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #475569;
+      font-size: 11px;
+      z-index: 2;
+    }
+
+    .tl-day {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+
+    .tl-emoji {
+      font-size: 24px;
+      margin: 4px 0;
+    }
+
+    .tl-desc {
+      font-size: clamp(11px, 2.8vw, 13px);
+      color: #cbd5e1;
+      line-height: 1.45;
+    }
+
+    /* WEATHER CARDS */
+    .w-neutral {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .w-neutral .emoji {
+      font-size: 30px;
+      flex-shrink: 0;
+    }
+
+    .w-neutral h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+
+    .w-neutral p {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .w-neutral-badge {
+      margin-right: auto;
+      flex-shrink: 0;
+      background: rgba(100, 116, 139, 0.2);
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 700;
+    }
+
+    /* GOOD */
+    .w-good {
+      background: linear-gradient(135deg, #052e16, #0f2d0f);
+      border: 1px solid #166534;
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .w-good::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 55px;
+      height: 55px;
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.15), transparent);
+      border-radius: 50%;
+    }
+
+    /* BAD */
+    .w-bad {
+      background: linear-gradient(135deg, #2d0a0a, #1a0a14);
+      border: 1px solid #7f1d1d;
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .w-bad::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 55px;
+      height: 55px;
+      background: radial-gradient(circle, rgba(239, 68, 68, 0.15), transparent);
+      border-radius: 50%;
+    }
+
+    /* SHARED WEATHER INTERNALS */
+    .w-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .w-emoji {
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+
+    .w-name {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .w-name.green {
+      color: #4ade80;
+    }
+
+    .w-name.red {
+      color: #f87171;
+    }
+
+    .w-tag {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 700;
+      margin-right: auto;
+      flex-shrink: 0;
+    }
+
+    .w-tag.green {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid #166534;
+    }
+
+    .w-tag.red {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid #7f1d1d;
+    }
+
+    .stat {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-icon {
+      font-size: 13px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .stat-val {
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .stat-val.green {
+      color: #4ade80;
+    }
+
+    .stat-val.red {
+      color: #f87171;
+    }
+
+    .stat-text {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .w-effect {
+      font-size: 12px;
+      color: #bbf7d0;
+      line-height: 1.55;
+      margin: 8px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .w-effect.bad {
+      color: #fecaca;
+    }
+
+    .w-tip {
+      font-size: 12px;
+      line-height: 1.55;
+      padding: 8px 10px;
+      border-radius: 0 6px 6px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .w-tip.green {
+      color: #86efac;
+      background: rgba(34, 197, 94, 0.1);
+      border-right: 3px solid #22c55e;
+    }
+
+    .w-tip.red {
+      color: #fca5a5;
+      background: rgba(239, 68, 68, 0.1);
+      border-right: 3px solid #ef4444;
+    }
+
+    .pvp-badge {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 11px;
+      background: rgba(168, 85, 247, 0.2);
+      color: #c084fc;
+      border: 1px solid #6b21a8;
+      padding: 3px 9px;
+      border-radius: 10px;
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* GRID */
+    .w-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .w-half {
+      flex: 1 1 240px;
+    }
+
+    .w-full {
+      flex: 1 1 100%;
+    }
+
+    .w-inner-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .w-inner-col {
+      flex: 1 1 180px;
+    }
+
+    /* ALERT */
+    .alert-box {
+      background: linear-gradient(135deg, #1c1400, #1a0f00);
+      border: 1px solid #78350f;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-top: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .alert-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .alert-box h4 {
+      font-size: 14px;
+      font-weight: 800;
+      color: #fbbf24;
+      margin-bottom: 5px;
+    }
+
+    .alert-box p {
+      font-size: 12px;
+      color: #d97706;
+      line-height: 1.6;
+    }
+
+    /* FAQ */
+    .faq-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .faq-card {
+      flex: 1 1 220px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .faq-q {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fbbf24;
+      margin-bottom: 7px;
+      display: flex;
+      gap: 5px;
+    }
+
+    .faq-q::before {
+      content: "؟";
+      color: #f59e0b;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .faq-a {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    /* FOOTER */
+    .footer {
+      margin-top: 36px;
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #1e293b;
+    }
+
+    .footer-name {
+      font-size: clamp(18px, 5vw, 24px);
+      font-weight: 900;
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 1px;
+    }
+
+    .footer-sub {
+      font-size: 12px;
+      color: #475569;
+      margin-top: 4px;
+    }
+
+    .footer-game {
+      font-size: 10px;
+      color: #334155;
+      margin-top: 6px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 640px) {
+      .timeline {
+        flex-direction: column;
+      }
+
+      .tl-item:not(:last-child)::after {
+        content: "▼";
+        left: 50%;
+        top: auto;
+        bottom: -10px;
+        transform: translateX(-50%);
+      }
+
+      .w-neutral {
+        flex-wrap: wrap;
+      }
+
+      .w-neutral-badge {
+        margin-right: 0;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="page">
+  <div class="page">
 
-  <!-- HEADER -->
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-badge">Last War: Survival</div>
+      <h1>نظام الطقس<br />الموسم الأول 🌦️</h1>
+      <p>دليلك الشامل لفهم الطقس والاستفادة منه تكتيكياً</p>
+      <div class="header-line"></div>
+    </div>
 
-  <div class="header">
-    <div class="header-badge">Last War: Survival</div>
-    <h1>نظام الطقس<br>الموسم الأول 🌦️</h1>
-    <p>دليلك الشامل لفهم الطقس والاستفادة منه تكتيكياً</p>
-    <div class="header-line"></div>
-  </div>
+    <!-- HOW IT WORKS -->
+    <div class="section-title">
+      <span class="icon">📡</span>
+      <h2>كيف يعمل نظام الطقس؟</h2>
+    </div>
 
-  <!-- HOW IT WORKS -->
+    <div class="info-row">
+      <div class="info-card">
+        <div class="ic">🗺️</div>
+        <h3>مستقل لكل خادم</h3>
+        <p>كل خادم من الـ8 له طقس عشوائي مختلف تماماً</p>
+      </div>
 
-  <div class="section-title">
-    <span class="icon">📡</span>
-    <h2>كيف يعمل نظام الطقس؟</h2>
-  </div>
+      <div class="info-card">
+        <div class="ic">👁️</div>
+        <h3>صفحة الرصد الجوي</h3>
+        <p>مونيكا تعرض 3 احتمالات للطقس القادم مع نسبة كل منها</p>
+      </div>
 
-  <div class="info-row">
-    <div class="info-card">
-      <div class="ic">🗺️</div>
-      <h3>مستقل لكل خادم</h3>
-      <p>كل خادم من الـ8 له طقس عشوائي مختلف تماماً</p>
-    </div>
-    <div class="info-card">
-      <div class="ic">👁️</div>
-      <h3>صفحة الرصد الجوي</h3>
-      <p>مونيكا تعرض 3 احتمالات للطقس القادم مع نسبة كل منها</p>
-    </div>
-    <div class="info-card">
-      <div class="ic">🔀</div>
-      <h3>تبديل التوقيت</h3>
-      <p>تحويل بين التوقيت المحلي وتوقيت الخادم لتخطيط أفضل</p>
-    </div>
-  </div>
-
-  <div class="prob-box">
-    <div class="prob-title">📊 مثال على توقعات الطقس القادم:</div>
-    <div class="prob-row">
-      <span class="prob-label">☁️ ضباب</span>
-      <div class="prob-bar-bg"><div class="prob-bar" style="width:40%;background:linear-gradient(90deg,#64748b,#94a3b8);"></div></div>
-      <span class="prob-pct">40%</span>
-    </div>
-    <div class="prob-row">
-      <span class="prob-label">☀️ مشمس</span>
-      <div class="prob-bar-bg"><div class="prob-bar" style="width:35%;background:linear-gradient(90deg,#d97706,#fbbf24);"></div></div>
-      <span class="prob-pct">35%</span>
-    </div>
-    <div class="prob-row">
-      <span class="prob-label">🌧️ مطر خفيف</span>
-      <div class="prob-bar-bg"><div class="prob-bar" style="width:25%;background:linear-gradient(90deg,#1d4ed8,#60a5fa);"></div></div>
-      <span class="prob-pct">25%</span>
-    </div>
-    <div class="prob-note">⚡ الطقس التالي سيكون أحد الثلاثة حتماً — لكن يُحدَّد عشوائياً</div>
-  </div>
-
-  <!-- TIMELINE -->
-
-  <div class="section-title">
-    <span class="icon">📅</span>
-    <h2>جدول تغيّر الطقس في الموسم</h2>
-  </div>
-  <div class="timeline">
-    <div class="tl-item" style="background:#1e293b;">
-      <div class="tl-day" style="color:#64748b;">اليوم 1-2</div>
-      <div class="tl-emoji">☁️</div>
-      <div class="tl-desc">طقس غائم ثابت<br><span style="color:#475569;font-size:10px;">لا تأثيرات</span></div>
-    </div>
-    <div class="tl-item" style="background:#172033;">
-      <div class="tl-day" style="color:#94a3b8;">اليوم 3+</div>
-      <div class="tl-emoji">🔀</div>
-      <div class="tl-desc">طقس عشوائي يومي<br><span style="color:#7c3aed;font-size:10px;">7 أنواع ممكنة</span></div>
-    </div>
-    <div class="tl-item" style="background:linear-gradient(135deg,#1a1030,#0d0a1a);">
-      <div class="tl-day" style="color:#818cf8;">الإجمالي</div>
-      <div class="tl-emoji">🌈</div>
-      <div class="tl-desc">
-        <span style="color:#22c55e;font-weight:800;">3</span> جيد +
-        <span style="color:#94a3b8;font-weight:800;">1</span> محايد +
-        <span style="color:#ef4444;font-weight:800;">3</span> سيئ
+      <div class="info-card">
+        <div class="ic">🔀</div>
+        <h3>تبديل التوقيت</h3>
+        <p>تحويل بين التوقيت المحلي وتوقيت الخادم لتخطيط أفضل</p>
       </div>
     </div>
-  </div>
 
-  <!-- WEATHER TYPES -->
+    <div class="prob-box">
+      <div class="prob-title">📊 مثال على توقعات الطقس القادم:</div>
 
-  <div class="section-title">
-    <span class="icon">🌤️</span>
-    <h2>أنواع الطقس وتأثيراتها</h2>
-  </div>
-
-  <!-- NEUTRAL -->
-
-  <div class="w-neutral">
-    <div class="emoji">☁️</div>
-    <div>
-      <h3>غائم — الطقس المحايد</h3>
-      <p>طقس انتقالي لا يؤثر على أي أسلوب لعب. يظهر في اليومين الأولين.</p>
-    </div>
-    <div class="w-neutral-badge">محايد</div>
-  </div>
-
-  <!-- GOOD WEATHER -->
-
-  <div class="w-grid">
-    <div class="w-half w-good">
-      <div class="w-head">
-        <span class="w-emoji">☀️</span>
-        <span class="w-name green">مشمس</span>
-        <span class="w-tag green">الأفضل للبداية</span>
+      <div class="prob-row">
+        <span class="prob-label">☁️ ضباب</span>
+        <div class="prob-bar-bg">
+          <div class="prob-bar" style="width: 40%; background: linear-gradient(90deg, #64748b, #94a3b8);"></div>
+        </div>
+        <span class="prob-pct">40%</span>
       </div>
-      <div class="stat">
-        <span class="stat-icon">⚔️</span>
-        <span class="stat-val green">+30%</span>
-        <span class="stat-text">خبرة مهنة إضافية من قتل الوحوش</span>
+
+      <div class="prob-row">
+        <span class="prob-label">☀️ مشمس</span>
+        <div class="prob-bar-bg">
+          <div class="prob-bar" style="width: 35%; background: linear-gradient(90deg, #d97706, #fbbf24);"></div>
+        </div>
+        <span class="prob-pct">35%</span>
       </div>
-      <div class="w-effect">الطقس الأمثل للارتقاء السريع في بداية الموسم. ركّز على مواجهة الزومبي في الخريطة.</div>
-      <div class="w-tip green">💡 استهدف المستوى 40 في S1 بسرعة عبر استغلال هذا الطقس</div>
-    </div>
 
-```
-<div class="w-half w-good">
-  <div class="w-head">
-    <span class="w-emoji">🌈</span>
-    <span class="w-name green">قوس قزح</span>
-    <span class="w-tag green">دخل خمول</span>
-  </div>
-  <div class="stat">
-    <span class="stat-icon">📈</span>
-    <span class="stat-val green">دوري</span>
-    <span class="stat-text">خبرة مهنة تلقائية دون قتال</span>
-  </div>
-  <div class="w-effect">خبرة مستمرة طالما أنت متصل — مثالي لجمع الموارد في نقاط الخريطة.</div>
-  <div class="w-tip green">💡 فائدة مزدوجة: اجمع الموارد + ارفع مستوى المهنة في آن واحد!</div>
-</div>
-
-<div class="w-full w-good">
-  <div class="w-head">
-    <span class="w-emoji">🌧️</span>
-    <span class="w-name green">مطر خفيف</span>
-    <span class="w-tag green">حماية من الفيروس</span>
-  </div>
-  <div class="w-inner-grid">
-    <div class="w-inner-col">
-      <div class="stat"><span class="stat-icon">🛡️</span><span class="stat-val green">PVP</span><span class="stat-text"> — القوات المهاجمة لا تحمل فيروساً</span></div>
-      <div class="stat"><span class="stat-icon">🤖</span><span class="stat-val green">PVE</span><span class="stat-text"> — لا عقوبة فيروس عند فشل التحدي</span></div>
-      <div class="w-effect">المدافع يحصل على ميزة واضحة في معارك PVP.</div>
-    </div>
-    <div class="w-inner-col">
-      <div class="w-tip green">💡 استغل المطر لتحدي نخبة النهاية بمستويات أعلى — حتى لو فشلت لن تتراكم فيروسات كبيرة. أكمل أول قتل لكل مستوى للحصول على مكافآت الموسم!</div>
-    </div>
-  </div>
-</div>
-```
-
-  </div>
-
-  <!-- BAD WEATHER -->
-
-  <div class="w-grid" style="margin-top:12px;">
-    <div class="w-half w-bad">
-      <div class="w-head">
-        <span class="w-emoji">🌫️</span>
-        <span class="w-name red">ضباب</span>
-        <span class="w-tag red">خطر PVE</span>
+      <div class="prob-row">
+        <span class="prob-label">🌧️ مطر خفيف</span>
+        <div class="prob-bar-bg">
+          <div class="prob-bar" style="width: 25%; background: linear-gradient(90deg, #1d4ed8, #60a5fa);"></div>
+        </div>
+        <span class="prob-pct">25%</span>
       </div>
-      <div class="stat"><span class="stat-icon">☣️</span><span class="stat-val red">+1</span><span class="stat-text"> طبقة فيروس للوحوش</span></div>
-      <div class="w-effect bad">تراكم طبقات الفيروس أسرع في تحديات الزومبي. جندي مصاب كل 300 ثانية عند الطبقة الأولى.</div>
-      <div class="w-tip red">⚠️ انتبه للسباق الحضري — 6 موجات زومبي مقاومة بجانب القاعدة العسكرية</div>
+
+      <div class="prob-note">⚡ الطقس التالي سيكون أحد الثلاثة حتماً — لكن يُحدَّد عشوائياً</div>
     </div>
 
-```
-<div class="w-half w-bad">
-  <div class="w-head">
-    <span class="w-emoji">☢️</span>
-    <span class="w-name red">مطر حمضي</span>
-    <span class="w-tag red">الأخطر</span>
-  </div>
-  <div class="stat"><span class="stat-icon">📉</span><span class="stat-val red">دوري</span><span class="stat-text"> إضافة طبقات فيروس مستمرة</span></div>
-  <div class="stat"><span class="stat-icon">❤️</span><span class="stat-val red">↓</span><span class="stat-text"> انخفاض الدفاع وكفاءة الإنتاج</span></div>
-  <div class="w-effect bad">لا يمكن تجنبه بتعزيز الأجسام المضادة التقليدية. الحل: المسح أو الانتقال لخادم آخر.</div>
-  <div class="pvp-badge">⚡ فرصة PVP ذهبية — انشر السموم!</div>
-</div>
-
-<div class="w-full w-bad">
-  <div class="w-head">
-    <span class="w-emoji">💨</span>
-    <span class="w-name red">عاصف</span>
-    <span class="w-tag red">عائق تكتيكي</span>
-  </div>
-  <div class="w-inner-grid">
-    <div class="w-inner-col">
-      <div class="stat"><span class="stat-icon">🐌</span><span class="stat-val red">-30%</span><span class="stat-text"> سرعة مسيرة القوات</span></div>
-      <div class="w-effect bad">رحلة 10 دقائق تصبح 13-14 دقيقة. يؤثر على الهجوم الجماعي، الدعم، والاستجابة الدفاعية.</div>
+    <!-- TIMELINE -->
+    <div class="section-title">
+      <span class="icon">📅</span>
+      <h2>جدول تغيّر الطقس في الموسم</h2>
     </div>
-    <div class="w-inner-col">
-      <div class="w-tip red">⚠️ عدّل استراتيجيتك مسبقاً — التأخر قد يُفوّتك نافذة القتال الحاسمة في المعارك الكبرى</div>
+
+    <div class="timeline">
+      <div class="tl-item" style="background: #1e293b;">
+        <div class="tl-day" style="color: #64748b;">اليوم 1-2</div>
+        <div class="tl-emoji">☁️</div>
+        <div class="tl-desc">
+          طقس غائم ثابت<br />
+          <span style="color: #475569; font-size: 10px;">لا تأثيرات</span>
+        </div>
+      </div>
+
+      <div class="tl-item" style="background: #172033;">
+        <div class="tl-day" style="color: #94a3b8;">اليوم 3+</div>
+        <div class="tl-emoji">🔀</div>
+        <div class="tl-desc">
+          طقس عشوائي يومي<br />
+          <span style="color: #7c3aed; font-size: 10px;">7 أنواع ممكنة</span>
+        </div>
+      </div>
+
+      <div class="tl-item" style="background: linear-gradient(135deg, #1a1030, #0d0a1a);">
+        <div class="tl-day" style="color: #818cf8;">الإجمالي</div>
+        <div class="tl-emoji">🌈</div>
+        <div class="tl-desc">
+          <span style="color: #22c55e; font-weight: 800;">3</span> جيد +
+          <span style="color: #94a3b8; font-weight: 800;">1</span> محايد +
+          <span style="color: #ef4444; font-weight: 800;">3</span> سيئ
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-```
 
-  </div>
-
-  <!-- ALERT -->
-
-  <div class="alert-box">
-    <div class="alert-icon">⚠️</div>
-    <div>
-      <h4>تنبيه: الانتقال بين الخوادم</h4>
-      <p>الطقس يؤثر فقط على خريطة خادمك الحالي. إذا نقلت قاعدتك لخادم آخر ستتأثر فوراً بطقسه — تحقق دائماً من طقس الخادم الهدف قبل الانتقال!</p>
+    <!-- WEATHER TYPES -->
+    <div class="section-title">
+      <span class="icon">🌤️</span>
+      <h2>أنواع الطقس وتأثيراتها</h2>
     </div>
-  </div>
 
-  <!-- FAQ -->
-
-  <div class="section-title">
-    <span class="icon">❓</span>
-    <h2>أسئلة شائعة</h2>
-  </div>
-  <div class="faq-grid">
-    <div class="faq-card">
-      <div class="faq-q">لماذا طقسي يختلف عن أعضاء التحالف؟</div>
-      <div class="faq-a">طقسك مرتبط بخادم قاعدتك فقط. كل خادم لديه طقس مستقل تماماً — أعضاء التحالف في خوادم أخرى يعيشون طقساً مختلفاً.</div>
+    <!-- NEUTRAL -->
+    <div class="w-neutral">
+      <div class="emoji">☁️</div>
+      <div>
+        <h3>غائم — الطقس المحايد</h3>
+        <p>طقس انتقالي لا يؤثر على أي أسلوب لعب. يظهر في اليومين الأولين.</p>
+      </div>
+      <div class="w-neutral-badge">محايد</div>
     </div>
-    <div class="faq-card">
-      <div class="faq-q">هل يمكن أن يتغير الطقس فجأة؟</div>
-      <div class="faq-a">نعم! الطقس متقلب جداً. النظام يخبرك فقط بوقت انتهاء الطقس الحالي — المدة لا تُعلن مسبقاً.</div>
+
+    <!-- GOOD WEATHER -->
+    <div class="w-grid">
+      <div class="w-half w-good">
+        <div class="w-head">
+          <span class="w-emoji">☀️</span>
+          <span class="w-name green">مشمس</span>
+          <span class="w-tag green">الأفضل للبداية</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-icon">⚔️</span>
+          <span class="stat-val green">+30%</span>
+          <span class="stat-text">خبرة مهنة إضافية من قتل الوحوش</span>
+        </div>
+
+        <div class="w-effect">الطقس الأمثل للارتقاء السريع في بداية الموسم. ركّز على مواجهة الزومبي في الخريطة.</div>
+        <div class="w-tip green">💡 استهدف المستوى 40 في S1 بسرعة عبر استغلال هذا الطقس</div>
+      </div>
+
+      <div class="w-half w-good">
+        <div class="w-head">
+          <span class="w-emoji">🌈</span>
+          <span class="w-name green">قوس قزح</span>
+          <span class="w-tag green">دخل خمول</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-icon">📈</span>
+          <span class="stat-val green">دوري</span>
+          <span class="stat-text">خبرة مهنة تلقائية دون قتال</span>
+        </div>
+
+        <div class="w-effect">خبرة مستمرة طالما أنت متصل — مثالي لجمع الموارد في نقاط الخريطة.</div>
+        <div class="w-tip green">💡 فائدة مزدوجة: اجمع الموارد + ارفع مستوى المهنة في آن واحد!</div>
+      </div>
+
+      <div class="w-full w-good">
+        <div class="w-head">
+          <span class="w-emoji">🌧️</span>
+          <span class="w-name green">مطر خفيف</span>
+          <span class="w-tag green">حماية من الفيروس</span>
+        </div>
+
+        <div class="w-inner-grid">
+          <div class="w-inner-col">
+            <div class="stat">
+              <span class="stat-icon">🛡️</span>
+              <span class="stat-val green">PVP</span>
+              <span class="stat-text">— القوات المهاجمة لا تحمل فيروساً</span>
+            </div>
+
+            <div class="stat">
+              <span class="stat-icon">🤖</span>
+              <span class="stat-val green">PVE</span>
+              <span class="stat-text">— لا عقوبة فيروس عند فشل التحدي</span>
+            </div>
+
+            <div class="w-effect">المدافع يحصل على ميزة واضحة في معارك PVP.</div>
+          </div>
+
+          <div class="w-inner-col">
+            <div class="w-tip green">
+              💡 استغل المطر لتحدي نخبة النهاية بمستويات أعلى — حتى لو فشلت لن تتراكم
+              فيروسات كبيرة. أكمل أول قتل لكل مستوى للحصول على مكافآت الموسم!
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="faq-card">
-      <div class="faq-q">ما فائدة الاحتمالات الثلاثة في التوقعات؟</div>
-      <div class="faq-a">تساعدك على تعديل استراتيجيتك مسبقاً. مثلاً: إذا كان احتمال الضباب 40% فقلل الهجمات عالية الخطورة.</div>
+
+    <!-- BAD WEATHER -->
+    <div class="w-grid" style="margin-top: 12px;">
+      <div class="w-half w-bad">
+        <div class="w-head">
+          <span class="w-emoji">🌫️</span>
+          <span class="w-name red">ضباب</span>
+          <span class="w-tag red">خطر PVE</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-icon">☣️</span>
+          <span class="stat-val red">+1</span>
+          <span class="stat-text">طبقة فيروس للوحوش</span>
+        </div>
+
+        <div class="w-effect bad">تراكم طبقات الفيروس أسرع في تحديات الزومبي. جندي مصاب كل 300 ثانية عند الطبقة الأولى.</div>
+        <div class="w-tip red">⚠️ انتبه للسباق الحضري — 6 موجات زومبي مقاومة بجانب القاعدة العسكرية</div>
+      </div>
+
+      <div class="w-half w-bad">
+        <div class="w-head">
+          <span class="w-emoji">☢️</span>
+          <span class="w-name red">مطر حمضي</span>
+          <span class="w-tag red">الأخطر</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-icon">📉</span>
+          <span class="stat-val red">دوري</span>
+          <span class="stat-text">إضافة طبقات فيروس مستمرة</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-icon">❤️</span>
+          <span class="stat-val red">↓</span>
+          <span class="stat-text">انخفاض الدفاع وكفاءة الإنتاج</span>
+        </div>
+
+        <div class="w-effect bad">لا يمكن تجنبه بتعزيز الأجسام المضادة التقليدية. الحل: المسح أو الانتقال لخادم آخر.</div>
+        <div class="pvp-badge">⚡ فرصة PVP ذهبية — انشر السموم!</div>
+      </div>
+
+      <div class="w-full w-bad">
+        <div class="w-head">
+          <span class="w-emoji">💨</span>
+          <span class="w-name red">عاصف</span>
+          <span class="w-tag red">عائق تكتيكي</span>
+        </div>
+
+        <div class="w-inner-grid">
+          <div class="w-inner-col">
+            <div class="stat">
+              <span class="stat-icon">🐌</span>
+              <span class="stat-val red">-30%</span>
+              <span class="stat-text">سرعة مسيرة القوات</span>
+            </div>
+
+            <div class="w-effect bad">رحلة 10 دقائق تصبح 13-14 دقيقة. يؤثر على الهجوم الجماعي، الدعم، والاستجابة الدفاعية.</div>
+          </div>
+
+          <div class="w-inner-col">
+            <div class="w-tip red">⚠️ عدّل استراتيجيتك مسبقاً — التأخر قد يُفوّتك نافذة القتال الحاسمة في المعارك الكبرى</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="faq-card">
-      <div class="faq-q">ما معنى الغائم في اليومين الأولين؟</div>
-      <div class="faq-a">طقس انتقالي بلا تأثيرات — فقط لمساعدتك على التعرف على الواجهة. من اليوم 3 يبدأ الطقس العشوائي رسمياً.</div>
+
+    <!-- ALERT -->
+    <div class="alert-box">
+      <div class="alert-icon">⚠️</div>
+      <div>
+        <h4>تنبيه: الانتقال بين الخوادم</h4>
+        <p>
+          الطقس يؤثر فقط على خريطة خادمك الحالي. إذا نقلت قاعدتك لخادم آخر ستتأثر فوراً
+          بطقسه — تحقق دائماً من طقس الخادم الهدف قبل الانتقال!
+        </p>
+      </div>
     </div>
+
+    <!-- FAQ -->
+    <div class="section-title">
+      <span class="icon">❓</span>
+      <h2>أسئلة شائعة</h2>
+    </div>
+
+    <div class="faq-grid">
+      <div class="faq-card">
+        <div class="faq-q">لماذا طقسي يختلف عن أعضاء التحالف؟</div>
+        <div class="faq-a">
+          طقسك مرتبط بخادم قاعدتك فقط. كل خادم لديه طقس مستقل تماماً — أعضاء التحالف في
+          خوادم أخرى يعيشون طقساً مختلفاً.
+        </div>
+      </div>
+
+      <div class="faq-card">
+        <div class="faq-q">هل يمكن أن يتغير الطقس فجأة؟</div>
+        <div class="faq-a">
+          نعم! الطقس متقلب جداً. النظام يخبرك فقط بوقت انتهاء الطقس الحالي — المدة لا
+          تُعلن مسبقاً.
+        </div>
+      </div>
+
+      <div class="faq-card">
+        <div class="faq-q">ما فائدة الاحتمالات الثلاثة في التوقعات؟</div>
+        <div class="faq-a">
+          تساعدك على تعديل استراتيجيتك مسبقاً. مثلاً: إذا كان احتمال الضباب 40% فقلل
+          الهجمات عالية الخطورة.
+        </div>
+      </div>
+
+      <div class="faq-card">
+        <div class="faq-q">ما معنى الغائم في اليومين الأولين؟</div>
+        <div class="faq-a">
+          طقس انتقالي بلا تأثيرات — فقط لمساعدتك على التعرف على الواجهة. من اليوم 3
+          يبدأ الطقس العشوائي رسمياً.
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="footer-name">Distopǐa · 1930</div>
+      <div class="footer-sub">Last War: Survival — دليل نظام الطقس للموسم الأول</div>
+      <div class="footer-game">LAST WAR · SEASON 1 · WEATHER SYSTEM GUIDE</div>
+    </div>
+
   </div>
-
-  <!-- FOOTER -->
-
-  <div class="footer">
-    <div class="footer-name">Distopǐa · 1930</div>
-    <div class="footer-sub">Last War: Survival — دليل نظام الطقس للموسم الأول</div>
-    <div class="footer-game">LAST WAR · SEASON 1 · WEATHER SYSTEM GUIDE</div>
-  </div>
-
-</div>
 </body>
 </html>
